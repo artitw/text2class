@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="text2class",
-    version="0.0.1",
+    version="0.0.2",
     author="Artit Wangperawong",
     author_email="artitw@gmail.com",
     description="Multi-class text categorization using state-of-the-art pre-trained contextualized language models.",
@@ -20,7 +20,7 @@ setuptools.setup(
     ],
     keywords='nlp text classification data science machine learning',
     install_requires=[
-        'tensorflow',
+        'tensorflow==1.15.0',
         'tensorflow_hub',
         'pandas',
     ],

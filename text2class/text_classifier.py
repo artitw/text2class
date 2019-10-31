@@ -198,7 +198,7 @@ class TextClassifier(object):
         num_train_steps=num_train_steps,
         num_warmup_steps=num_warmup_steps)
 
-      estimator = tf.estimator.Estimator(
+      self.estimator = tf.estimator.Estimator(
         model_fn=model_fn,
         config=run_config,
         params={"batch_size": BATCH_SIZE})
@@ -212,35 +212,15 @@ class TextClassifier(object):
           
       print(f'Beginning training...')
       current_time = datetime.now()
-      estimator.train(input_fn=train_input_fn, max_steps=num_train_steps)
+      self.estimator.train(input_fn=train_input_fn, max_steps=num_train_steps)
       print("Finished training in ", datetime.now() - current_time)
       
-
-    def predict(self, df,
-        BATCH_SIZE=32, # Compute train and warmup steps from batch size
-        MODEL_DIR='model_out' # # Specify output directory
-      ):
-
+    def predict(self, in_sentences, MODEL_DIR='model_out'):
       run_config = tf.estimator.RunConfig(model_dir=MODEL_DIR)
-
-      model_fn = self.model_fn_builder(num_labels=self.NUM_LABELS)
-
-      estimator = tf.estimator.Estimator(
-        model_fn=model_fn,
-        config=run_config,
-        params={"batch_size": BATCH_SIZE})
-
-      test_InputExamples = df.apply(lambda x: classification.InputExample(guid=None, 
-                                                                               text_a = x[self.DATA_COLUMN], 
-                                                                               text_b = None, 
-                                                                               label = x[self.LABEL_COLUMN]), axis = 1)
-      test_features = classification.convert_examples_to_features(test_InputExamples, self.LABEL_LIST, self.MAX_SEQ_LENGTH, self.tokenizer)
-      test_input_fn = classification.input_fn_builder(
-        features=test_features,
-        seq_length=self.MAX_SEQ_LENGTH,
-        is_training=False,
-        drop_remainder=False)
-      predictions = estimator.predict(test_input_fn)
-      return [prediction['labels'] for prediction in predictions]
+      input_examples = [classification.InputExample(guid="", text_a = x, text_b = None, label = 0) for x in in_sentences] # here, "" is just a dummy label
+      input_features = classification.convert_examples_to_features(input_examples, self.LABEL_LIST, self.MAX_SEQ_LENGTH, self.tokenizer)
+      predict_input_fn = classification.input_fn_builder(features=input_features, seq_length=self.MAX_SEQ_LENGTH, is_training=False, drop_remainder=False)
+      predictions = self.estimator.predict(predict_input_fn)
+      return [(sentence, prediction['labels']) for sentence, prediction in zip(in_sentences, predictions)]
 
 

@@ -1,5 +1,5 @@
 # Text2Class
-Build multi-class text classifiers using state-of-the-art pre-trained contextualized language models. Only a few hundred samples per class are necessary to get started.
+Build multi-class text classifiers using state-of-the-art pre-trained contextualized language models, e.g. BERT. Only a few hundred samples per class are necessary to get started.
 
 ## Background
 
@@ -28,7 +28,7 @@ pip install text2class
 ### Create a dataframe with two columns, 'text' and 'label'. No text pre-processing is necessary.
 ```
 import pandas as pd
-from text2class import TextClassifier
+from text2class.text_classifier import TextClassifier
 
 df = pd.read_csv("data.csv")
 
@@ -50,7 +50,7 @@ predictions = cls.predict(test)
 ## Advanced usage
 
 ### Model type
-The default model is an uncased Bidirectional Encoder Representations from Transformers (BERT) consisting of 12 transformer layers, 12 self-attention heads per layer, and a hidden size of 768. Below are all models currently supported that you can specify with `hub_module_handle`. We expect that more will be added in the future.
+The default model is an uncased Bidirectional Encoder Representations from Transformers (BERT) consisting of 12 transformer layers, 12 self-attention heads per layer, and a hidden size of 768. Below are all models currently supported that you can specify with `hub_module_handle`. We expect that more will be added in the future. For more information, see [BERT's GitHub](https://github.com/google-research/bert).
 ```
 https://tfhub.dev/google/bert_uncased_L-12_H-768_A-12/1
 https://tfhub.dev/google/bert_uncased_L-24_H-1024_A-16/1
