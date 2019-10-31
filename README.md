@@ -25,7 +25,7 @@ pip install text2class
 
 ## Example usage
 
-### Create a dataframe with two columns, 'text' and 'label'. No text pre-processing is necessary.
+### Create a dataframe with two columns, such as 'text' and 'label'. No text pre-processing is necessary.
 ```
 import pandas as pd
 from text2class.text_classifier import TextClassifier
@@ -33,7 +33,7 @@ from text2class.text_classifier import TextClassifier
 df = pd.read_csv("data.csv")
 
 train = df.sample(frac=0.9,random_state=200)
-test=df.drop(train.index)
+test = df.drop(train.index)
 
 cls = TextClassifier(
 	num_labels=3,
@@ -44,7 +44,7 @@ cls = TextClassifier(
 
 cls.fit(train)
 
-predictions = cls.predict(test)
+predictions = cls.predict(test["text"])
 ```
 
 ## Advanced usage
