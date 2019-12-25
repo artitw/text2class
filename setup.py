@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="text2class",
-    version="0.0.2",
+    version="0.0.3",
     author="Artit Wangperawong",
     author_email="artitw@gmail.com",
     description="Multi-class text categorization using state-of-the-art pre-trained contextualized language models.",
