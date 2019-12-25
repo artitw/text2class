@@ -215,8 +215,16 @@ class TextClassifier(object):
       self.estimator.train(input_fn=train_input_fn, max_steps=num_train_steps)
       print("Finished training in ", datetime.now() - current_time)
       
-    def predict(self, in_sentences, MODEL_DIR='model_out'):
+    def predict(self, in_sentences, BATCH_SIZE=32, MODEL_DIR='model_out'):
       run_config = tf.estimator.RunConfig(model_dir=MODEL_DIR)
+
+      model_fn = self.model_fn_builder(num_labels=self.NUM_LABELS)
+
+      self.estimator = tf.estimator.Estimator(
+        model_fn=model_fn,
+        config=run_config,
+        params={"batch_size": BATCH_SIZE})
+    
       input_examples = [classification.InputExample(guid="", text_a = x, text_b = None, label = 0) for x in in_sentences] # here, "" is just a dummy label
       input_features = classification.convert_examples_to_features(input_examples, self.LABEL_LIST, self.MAX_SEQ_LENGTH, self.tokenizer)
       predict_input_fn = classification.input_fn_builder(features=input_features, seq_length=self.MAX_SEQ_LENGTH, is_training=False, drop_remainder=False)
