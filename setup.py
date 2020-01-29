@@ -20,7 +20,7 @@ setuptools.setup(
     ],
     keywords='nlp text classification data science machine learning',
     install_requires=[
-        'tensorflow==1.15.0',
+        'tensorflow==1.15.2',
         'tensorflow_hub',
         'pandas',
     ],
