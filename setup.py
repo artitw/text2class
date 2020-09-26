@@ -20,7 +20,7 @@ setuptools.setup(
     ],
     keywords='bert nlp text classification data science machine learning',
     install_requires=[
-        'tensorflow==1.15.2',
+        'tensorflow==1.15.4',
         'tensorflow_hub',
         'pandas',
     ],
